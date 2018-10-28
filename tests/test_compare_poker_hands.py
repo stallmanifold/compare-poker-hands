@@ -21,6 +21,16 @@ def test_poker_hand_factory_method_should_accept_valid_hand_strings():
     assert result == expected
 
 
+def test_poker_hand_factory_method_should_reject_the_wrong_number_of_cards():
+    """
+    GIVEN: A poker hand string, without more than five cards'.
+    WHEN:  We call the factory method passing the poker hand string.
+    THEN:  The parser should reject the hand.
+    """
+    with pytest.raises(ValueError):
+        result = PokerHand('TS JC QD KH AH 3D 7C 2S')
+
+
 def test_poker_hand_factory_method_should_reject_invalid_hand_strings():
     """
     GIVEN: A valid poker hand string has the form 'RS RS RS RS RS', where
