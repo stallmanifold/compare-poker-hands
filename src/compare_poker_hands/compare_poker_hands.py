@@ -15,7 +15,7 @@ class Rank(enum.IntEnum):
     TEN    = 10
     JACK   = 11
     QUEEN  = 12
-    KIND   = 13
+    KING   = 13
     ACE    = 14
 
 class Suit(enum.IntEnum):
@@ -35,8 +35,34 @@ def PokerHand(string):
     return parse_poker_hand(string)
 
 
-def parse_card(card):
-    pass
+def parse_card(card_string):
+    RANKS = {
+        '2': Rank.TWO, '3': Rank.THREE, '4': Rank.FOUR,  '5': Rank.FOUR, 
+        '6': Rank.SIX, '7': Rank.SEVEN, '8': Rank.EIGHT, '9': Rank.NINE, 
+        'T': Rank.TEN, 'J': Rank.JACK,  'Q': Rank.QUEEN, 'K': Rank.KING, 
+        'A': Rank.ACE
+    } 
+    SUITS = {
+        'S': Suit.SPADES, 'C': Suit.CLUBS, 'D': Suit.DIAMONDS, 'H': Suit.HEARTS
+    }
+
+    try:
+        rank_string = card_string[0]
+        suit_string = card_string[1]
+    except:
+        raise ValueError(f'Invalid card: {card_string}')
+
+    try:
+        rank = RANKS[rank_string]
+    except KeyError:
+        raise ValueError(f'Invalid rank: {card_string}')
+
+    try:
+        suit = SUITS[suit_string]
+    except KeyError:
+        raise ValueError(f'Invalid suit: {card_string}')
+
+    return Card(rank, suit)
 
 
 def parse_poker_hand(string):
@@ -51,11 +77,11 @@ def parse_poker_hand(string):
     for card_string in card_strings:
         try:
             card = parse_card(card_string)
-        except:
+        except ValueError:
             raise ValueError(
                 f'Got an invalid poker hand string. Poker hands must have the'
                 f'form \"RS RS RS RS RS\", where \'R\' denotes a rank, '
-                f'and \'S\' denotes a suit.', string
+                f'and \'S\' denotes a suit.'
             )
 
         cards.append(card)
