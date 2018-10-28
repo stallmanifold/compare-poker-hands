@@ -1,6 +1,6 @@
 import pytest
 
-from compare_poker_hands.compare_poker_hands import PokerHand, Hand
+from compare_poker_hands.compare_poker_hands import PokerHand, Hand, Card, Rank, Suit
 
 
 def test_poker_hand_factory_method_should_accept_valid_hand_strings():
@@ -13,7 +13,10 @@ def test_poker_hand_factory_method_should_accept_valid_hand_strings():
            hand.
     """
     result = PokerHand('TS JC QD KH AH')
-    expected = Hand(['TS', 'JC', 'QD', 'KH', 'AH'])
+    expected = Hand([
+        Card(Rank.TEN, Suit.SPADES), Card(Rank.JACK, Suit.CLUBS), Card(Rank.QUEEN, Suit.DIAMONDS), 
+        Card(Rank.KING, Suit.HEARTS), Card(Rank.ACE, Suit.HEARTS)
+    ])
 
     assert result == expected
 
