@@ -54,3 +54,28 @@ def test_straight_flush_beats_four_of_a_kind():
 
     assert straight_flush.compare_with(four_of_a_kind) == 'Win'
 
+
+def test_highest_straight_flush_wins():
+    """
+    GIVEN: Two poker hands that are straight flushes.
+    WHEN:  We compare the hands.
+    THEN:  The highest straight glush wins.
+    """
+    hand1 = PokerHand('2H 3H 4H 5H 6H')
+    hand2 = PokerHand('KS AS TS QS JS')
+
+    assert hand2.compare_with(hand1) == 'Win'
+
+
+def test_equal_straight_is_a_tie():
+    """
+    GIVEN: Two straights with identical card ranks.
+    WHEN:  We compare the hands.
+    THEN:  The comparison is a tie. It should compare straights on card 
+           ranks only.
+    """
+    straight1 = PokerHand('2S 3H 4H 5S 6C')
+    straight2 = PokerHand('3D 4C 5H 6H 2S')
+
+    assert straight1.compare_with(straight2) == 'Tie'
+

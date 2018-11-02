@@ -37,7 +37,7 @@ def PokerHand(string):
 
 def parse_card(card_string):
     RANKS = {
-        '2': Rank.TWO, '3': Rank.THREE, '4': Rank.FOUR,  '5': Rank.FOUR, 
+        '2': Rank.TWO, '3': Rank.THREE, '4': Rank.FOUR,  '5': Rank.FIVE, 
         '6': Rank.SIX, '7': Rank.SEVEN, '8': Rank.EIGHT, '9': Rank.NINE, 
         'T': Rank.TEN, 'J': Rank.JACK,  'Q': Rank.QUEEN, 'K': Rank.KING, 
         'A': Rank.ACE
@@ -79,9 +79,9 @@ def parse_poker_hand(string):
             card = parse_card(card_string)
         except ValueError:
             raise ValueError(
-                f'Got an invalid poker hand string. Poker hands must have the'
-                f'form \"RS RS RS RS RS\", where \'R\' denotes a rank, '
-                f'and \'S\' denotes a suit.'
+                'Got an invalid poker hand string. Poker hands must have the'
+                'form \"RS RS RS RS RS\", where \'R\' denotes a rank, '
+                'and \'S\' denotes a suit.'
             )
 
         cards.append(card)
@@ -91,13 +91,36 @@ def parse_poker_hand(string):
 
 class Hand:
 
-    RESULT = ["Loss", "Tie", "Win"]
+    RESULT = ['Loss', 'Tie', 'Win']
 
     def __init__(self, hand):
         self.hand = hand
 
     def compare_with(self, other):
-        return 'Win'
+        if self.is_straight() and other.is_straight():
+            hand = self.hand
+            hand.sort()
+            other_hand = other.hand
+            other_hand.sort()
+            for (card, other_card) in zip(hand, other_hand):
+                print(card, other_card)
+                if card.rank > other_card.rank:
+                    return 'Win'
+                elif card.rank < other_card.rank:
+                    return 'Lose'
+                else:
+                    continue
+
+            return 'Tie'
+        else:
+            return 'Win'
+
+    def is_straight(self):
+        for (card, next_card) in zip(self.hand[:5], self.hand[1:]):
+            if next_card.rank != card.rank + 1:
+                return False
+
+        return True
 
     def __eq__(self, other):
         return self.hand == other.hand
