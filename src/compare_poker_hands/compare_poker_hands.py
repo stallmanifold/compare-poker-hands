@@ -94,6 +94,7 @@ class Hand:
     RESULT = ['Loss', 'Tie', 'Win']
 
     def __init__(self, hand):
+        hand.sort()
         self.hand = hand
 
     def compare_with(self, other):
