@@ -104,7 +104,7 @@ def PokerHand(string):
 
 
 class HandValue(enum.IntEnum):
-    HIGHCARD        = 1
+    HIGH_CARD       = 1
     PAIR            = 2
     TWO_PAIRS       = 3
     THREE_OF_A_KIND = 4
@@ -116,12 +116,81 @@ class HandValue(enum.IntEnum):
     ROYAL_FLUSH     = 10
 
 
-def classify_hand(hand):
-    pass
+def _is_royal_flush(hand):
+    return NotImplemented
+
+
+def _is_straight_flush(hand):
+    return NotImplemented
+
+
+def _is_four_of_a_kind(hand):
+    return NotImplemented
+
+
+def _is_full_house(hand):
+    return NotImplemented
+
+
+def _is_flush(hand):
+    return NotImplemented
+
+
+def _is_straight(hand):
+    for (card, next_card) in zip(self.hand[:5], self.hand[1:]):
+        if next_card.rank != card.rank + 1:
+            return False
+
+    return True
+
+
+def _is_three_of_a_kind(hand):
+    return NotImplemented
+
+
+def _is_two_pairs(hand):
+    return NotImplemented
+
+
+def _is_pair(hand):
+    return NotImplemented
+
+
+def _is_highcard(hand):
+    return NotImplemented
+
+
+def hand_value(hand):
+    if _is_royal_flush(hand):
+        return HandValue.ROYAL_FLUSH
+    elif _is_straight_flush(hand):
+        return HandValue.STRAIGHT_FLIUSH
+    elif _is_four_of_a_kind(hand):
+        return HandValue.FOUR_OF_A_KIND
+    elif _is_full_house(hand):
+        return HandValue.FULL_HOUSE
+    elif _is_flush(hand):
+        return HandValue.FLUSH
+    elif _is_straight(hand):
+        return HandValue.STRAIGHT
+    elif _is_three_of_a_kind(hand):
+        return HandValue.THREE_OF_A_KIND
+    elif _is_two_pairs(hand):
+        return HandValue.TWO_PAIRS
+    elif _is_pair():
+        return HandValue.PAIR
+    elif _is_highcard():
+        return HandValue.HIGH_CARD
+    else:
+        # We did not get an actual poker hand.
+        raise TypeError('Not a poker hand')
+
+
+def compare(this_hand, that_hand):
+    return NotImplemented
+
 
 class Hand:
-
-    RESULT = ['Loss', 'Tie', 'Win']
 
     def __init__(self, hand):
         new_hand = list(hand)
@@ -137,48 +206,25 @@ class Hand:
         else:
             return 'Tie'
 
-    def is_straight(self):
-        for (card, next_card) in zip(self.hand[:5], self.hand[1:]):
-            if next_card.rank != card.rank + 1:
-                return False
-
-        return True
 
     def __gt__(self, other):
-        if self.is_straight() and other.is_straight():
-            hand = self.hand
-            other_hand = other.hand
-            other_hand.sort()
-            for (card, other_card) in zip(hand, other_hand):
-                if card.rank > other_card.rank:
-                    return True
-                elif card.rank < other_card.rank:
-                    return False
-                else:
-                    continue
-
-            return False
-
-        else:
+        self_hand_value = hand_value(self)
+        other_hand_value = hand_value(other)
+        if self_hand_value > other_hand_value:
             return True
+        elif self_hand_value < other_hand_value:
+            return False
+        else:
+            # The hand types should match. 
+            assert self_hand_value == other_hand_value
+
+            # When the hand types match, 
+            # Texas-Hold'em rules state that we compare the hands cardwise
+            # first by rank, and then by suit.
+            return compare(self, other)
 
     def __lt__(self, other):
-        if self.is_straight() and other.is_straight():
-            hand = self.hand
-            other_hand = other.hand
-            other_hand.sort()
-            for (card, other_card) in zip(hand, other_hand):
-                if card.rank < other_card.rank:
-                    return True
-                elif card.rank > other_card.rank:
-                    return False
-                else:
-                    continue
-
-            return False
-
-        else:
-            return True
+        return NotImplemented
 
     def __eq__(self, other):
         return self.hand == other.hand
