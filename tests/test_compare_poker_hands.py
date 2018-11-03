@@ -44,17 +44,6 @@ def test_poker_hand_factory_method_should_reject_invalid_hand_strings():
         result = PokerHand('potato potato potato potato')
 
 
-def test_hand_value_should_correctly_identify_four_of_a_kind():
-    """
-    GIVEN: A four of a kind poker hand.
-    WHEN:  We identify its hand value.
-    THEN:  It should be correctly classified as a four of a kind.
-    """
-    four_of_a_kind = PokerHand('AS AD AC AH JD')
-
-    assert cph.hand_value(four_of_a_kind) == HandValue.FOUR_OF_A_KIND
-
-
 def test_straight_flush_beats_four_of_a_kind():
     """ 
     GIVEN: A straight flush hand and a four-of-a-kind hand.
