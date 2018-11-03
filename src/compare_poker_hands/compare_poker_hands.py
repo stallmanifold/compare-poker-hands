@@ -42,6 +42,34 @@ def card_to_str(card):
     return f'{RANKS[card.rank]}{SUITS[card.suit]}'
 
 
+def _longest_run(hand):
+    longest_run_start = 0
+    longest_run_len = 0
+    longest_run_rank = None
+    current_run_start = 0
+    current_run_len = 0
+    current_run_rank = None
+    for (i, card_i) in enumerate(hand.hand): 
+        if card_i.rank == current_run_rank:
+            current_run_len += 1
+        else:
+            if current_run_len > longest_run_len:
+                longest_run_start = current_run_start
+                longest_run_len = current_run_len
+                longest_run_rank = current_run_rank
+
+            current_run_start = i
+            current_run_len = 1
+            current_run_rank = card_i.rank
+
+    if current_run_len > longest_run_len:
+        longest_run_start = current_run_start
+        longest_run_len = current_run_len
+        longest_run_rank = current_run_rank
+
+    return longest_run_start, longest_run_len
+
+
 def parse_card(card_string):
     RANKS = {
         '2': Rank.TWO, '3': Rank.THREE, '4': Rank.FOUR,  '5': Rank.FIVE, 
@@ -125,7 +153,11 @@ def _is_straight_flush(hand):
 
 
 def _is_four_of_a_kind(hand):
-    return NotImplemented
+    start, length = _longest_run(hand)
+    if length == 4:
+        return True
+    else:
+        return False
 
 
 def _is_full_house(hand):
@@ -161,29 +193,44 @@ def _is_highcard(hand):
 
 
 def hand_value(hand):
-    if _is_royal_flush(hand):
-        return HandValue.ROYAL_FLUSH
-    elif _is_straight_flush(hand):
-        return HandValue.STRAIGHT_FLIUSH
-    elif _is_four_of_a_kind(hand):
+    #if _is_royal_flush(hand):
+    #    return HandValue.ROYAL_FLUSH
+    #elif _is_straight_flush(hand):
+    #    return HandValue.STRAIGHT_FLUSH
+    #elif _is_four_of_a_kind(hand):
+    if _is_four_of_a_kind(hand):
         return HandValue.FOUR_OF_A_KIND
-    elif _is_full_house(hand):
-        return HandValue.FULL_HOUSE
-    elif _is_flush(hand):
-        return HandValue.FLUSH
+    #elif _is_full_house(hand):
+    #    return HandValue.FULL_HOUSE
+    #elif _is_flush(hand):
+    #    return HandValue.FLUSH
     elif _is_straight(hand):
         return HandValue.STRAIGHT
-    elif _is_three_of_a_kind(hand):
-        return HandValue.THREE_OF_A_KIND
-    elif _is_two_pairs(hand):
-        return HandValue.TWO_PAIRS
-    elif _is_pair():
-        return HandValue.PAIR
-    elif _is_highcard():
-        return HandValue.HIGH_CARD
+    #elif _is_three_of_a_kind(hand):
+    #    return HandValue.THREE_OF_A_KIND
+    #elif _is_two_pairs(hand):
+    #    return HandValue.TWO_PAIRS
+    #elif _is_pair():
+    #    return HandValue.PAIR
+    #elif _is_highcard():
+    #    return HandValue.HIGH_CARD
     else:
         # We did not get an actual poker hand.
-        raise TypeError('Not a poker hand')
+        raise TypeError('Not a poker hand', str(hand))
+
+
+def _compare_four_of_a_kinds(this_hand, that_hand):
+    this_start, this_len = longest_run(this_hand)
+    that_start, that_len = longest_run(that_hand)
+    this_rank = this_hand.hand[this_start]
+    that_rank = that_hand.hand[that_start]
+
+    if this_rank > that_rank:
+        return 1
+    elif this_rank < that_rank:
+        return -1
+    else:
+        return 0
 
 
 def _compare_straights(this_hand, that_hand):
@@ -200,15 +247,16 @@ def _compare_straights(this_hand, that_hand):
 
 def compare(this_hand, that_hand):
     COMPARATORS = {
-        HandValue.STRAIGHT: _compare_straights
+        HandValue.FOUR_OF_A_KIND: _compare_four_of_a_kinds,
+        HandValue.STRAIGHT: _compare_straights,
     }
 
     this_hand_value = hand_value(this_hand)
     that_hand_value = hand_value(that_hand)
     if this_hand_value > that_hand_value:
-        return True
+        return 1
     elif this_hand_value < that_hand_value:
-        return False
+        return -1
     else:
         # The hand types should match. 
         assert this_hand_value == that_hand_value
@@ -216,7 +264,7 @@ def compare(this_hand, that_hand):
         # When the hand types match, 
         # Texas Hold'em rules state that we compare the hands cardwise
         # by rank. Suit is irrelevant in Texas Hold'em.
-        return COMPARATORS[this_hand_value]
+        return COMPARATORS[this_hand_value](this_hand, that_hand)
 
 
 class Hand:
