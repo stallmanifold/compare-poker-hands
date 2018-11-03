@@ -103,6 +103,22 @@ def PokerHand(string):
     return parse_poker_hand(string)
 
 
+class HandValue(enum.IntEnum):
+    HIGHCARD        = 1
+    PAIR            = 2
+    TWO_PAIRS       = 3
+    THREE_OF_A_KIND = 4
+    STRAIGHT        = 5
+    FLUSH           = 6
+    FULL_HOUSE      = 7
+    FOUR_OF_A_KIND  = 8
+    STRAIGHT_FLUSH  = 9
+    ROYAL_FLUSH     = 10
+
+
+def classify_hand(hand):
+    pass
+
 class Hand:
 
     RESULT = ['Loss', 'Tie', 'Win']
@@ -114,22 +130,12 @@ class Hand:
 
 
     def compare_with(self, other):
-        if self.is_straight() and other.is_straight():
-            hand = self.hand
-            other_hand = other.hand
-            other_hand.sort()
-            for (card, other_card) in zip(hand, other_hand):
-                print(card, other_card)
-                if card.rank > other_card.rank:
-                    return 'Win'
-                elif card.rank < other_card.rank:
-                    return 'Lose'
-                else:
-                    continue
-
-            return 'Tie'
-        else:
+        if self > other:
             return 'Win'
+        elif self < other:
+            return 'Lose'
+        else:
+            return 'Tie'
 
     def is_straight(self):
         for (card, next_card) in zip(self.hand[:5], self.hand[1:]):
@@ -137,6 +143,42 @@ class Hand:
                 return False
 
         return True
+
+    def __gt__(self, other):
+        if self.is_straight() and other.is_straight():
+            hand = self.hand
+            other_hand = other.hand
+            other_hand.sort()
+            for (card, other_card) in zip(hand, other_hand):
+                if card.rank > other_card.rank:
+                    return True
+                elif card.rank < other_card.rank:
+                    return False
+                else:
+                    continue
+
+            return False
+
+        else:
+            return True
+
+    def __lt__(self, other):
+        if self.is_straight() and other.is_straight():
+            hand = self.hand
+            other_hand = other.hand
+            other_hand.sort()
+            for (card, other_card) in zip(hand, other_hand):
+                if card.rank < other_card.rank:
+                    return True
+                elif card.rank > other_card.rank:
+                    return False
+                else:
+                    continue
+
+            return False
+
+        else:
+            return True
 
     def __eq__(self, other):
         return self.hand == other.hand
