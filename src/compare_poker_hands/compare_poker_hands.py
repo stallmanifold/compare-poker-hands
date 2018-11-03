@@ -137,7 +137,7 @@ def _is_flush(hand):
 
 
 def _is_straight(hand):
-    for (card, next_card) in zip(self.hand[:5], self.hand[1:]):
+    for (card, next_card) in zip(hand.hand[:5], hand.hand[1:]):
         if next_card.rank != card.rank + 1:
             return False
 
@@ -186,8 +186,37 @@ def hand_value(hand):
         raise TypeError('Not a poker hand')
 
 
+def _compare_straights(this_hand, that_hand):
+    for (this_card, that_card) in zip(this_hand.hand, that_hand.hand):
+        if this_card.rank > that_card.rank:
+            return 1
+        elif this_card.rank < that_card.rank:
+            return -1
+        else:
+            continue
+
+    return 0
+
+
 def compare(this_hand, that_hand):
-    return NotImplemented
+    COMPARATORS = {
+        HandValue.STRAIGHT: _compare_straights
+    }
+
+    this_hand_value = hand_value(this_hand)
+    that_hand_value = hand_value(that_hand)
+    if this_hand_value > that_hand_value:
+        return True
+    elif this_hand_value < that_hand_value:
+        return False
+    else:
+        # The hand types should match. 
+        assert this_hand_value == that_hand_value
+
+        # When the hand types match, 
+        # Texas Hold'em rules state that we compare the hands cardwise
+        # by rank. Suit is irrelevant in Texas Hold'em.
+        return COMPARATORS[this_hand_value]
 
 
 class Hand:
@@ -199,48 +228,23 @@ class Hand:
 
 
     def compare_with(self, other):
-        if self > other:
+        comparison = compare(self, other)
+        if comparison > 0:
             return 'Win'
-        elif self < other:
+        elif comparison < 0:
             return 'Lose'
         else:
             return 'Tie'
 
 
     def __gt__(self, other):
-        self_hand_value = hand_value(self)
-        other_hand_value = hand_value(other)
-        if self_hand_value > other_hand_value:
-            return True
-        elif self_hand_value < other_hand_value:
-            return False
-        else:
-            # The hand types should match. 
-            assert self_hand_value == other_hand_value
-
-            # When the hand types match, 
-            # Texas-Hold'em rules state that we compare the hands cardwise
-            # first by rank, and then by suit.
-            return compare(self, other)
+        return compare(self, other) > 0
 
     def __lt__(self, other):
-        self_hand_value = hand_value(self)
-        other_hand_value = hand_value(other)
-        if self_hand_value < other_hand_value:
-            return True
-        elif self_hand_value > other_hand_value:
-            return False
-        else:
-            # The hand types should match. 
-            assert self_hand_value == other_hand_value
-
-            # When the hand types match, 
-            # Texas-Hold'em rules state that we compare the hands cardwise
-            # first by rank, and then by suit.
-            return compare(self, other)
+        return compare(self, other) < 0
 
     def __eq__(self, other):
-        return self.hand == other.hand
+        return compare(self, other) == 0
 
     def __repr__(self):
         return f'Hand([{self.hand[0]}, {self.hand[1]}, {self.hand[2]}, {self.hand[3]}, {self.hand[4]}])'
