@@ -224,7 +224,20 @@ class Hand:
             return compare(self, other)
 
     def __lt__(self, other):
-        return NotImplemented
+        self_hand_value = hand_value(self)
+        other_hand_value = hand_value(other)
+        if self_hand_value < other_hand_value:
+            return True
+        elif self_hand_value > other_hand_value:
+            return False
+        else:
+            # The hand types should match. 
+            assert self_hand_value == other_hand_value
+
+            # When the hand types match, 
+            # Texas-Hold'em rules state that we compare the hands cardwise
+            # first by rank, and then by suit.
+            return compare(self, other)
 
     def __eq__(self, other):
         return self.hand == other.hand
