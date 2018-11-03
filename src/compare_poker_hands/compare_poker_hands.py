@@ -94,13 +94,14 @@ class Hand:
     RESULT = ['Loss', 'Tie', 'Win']
 
     def __init__(self, hand):
-        hand.sort()
-        self.hand = hand
+        new_hand = list(hand)
+        new_hand.sort()
+        self.hand = new_hand
+
 
     def compare_with(self, other):
         if self.is_straight() and other.is_straight():
             hand = self.hand
-            hand.sort()
             other_hand = other.hand
             other_hand.sort()
             for (card, other_card) in zip(hand, other_hand):
