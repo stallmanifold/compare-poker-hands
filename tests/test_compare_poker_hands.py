@@ -18,7 +18,7 @@ def test_poker_hand_factory_method_should_accept_valid_hand_strings():
         Card(Rank.KING, Suit.HEARTS), Card(Rank.ACE, Suit.HEARTS)
     ])
 
-    assert result == expected
+    assert result.hand == expected.hand
 
 
 def test_poker_hand_factory_method_should_reject_the_wrong_number_of_cards():
