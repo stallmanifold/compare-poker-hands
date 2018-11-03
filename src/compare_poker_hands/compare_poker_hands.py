@@ -49,7 +49,7 @@ def parse_card(card_string):
     try:
         rank_string = card_string[0]
         suit_string = card_string[1]
-    except:
+    except KeyError:
         raise ValueError(f'Invalid card: {card_string}')
 
     try:
