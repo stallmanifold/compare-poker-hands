@@ -123,7 +123,7 @@ def test_lowest_four_of_a_kind_loses():
     WHEN: We compare the hands.
     THEN: The lowest ranked four-of-a-kind loses.
     """
-    four_of_a_kind2 = PokerHand('JS JD JC JH 3D')
-    four_of_a_kind1 = PokerHand('AS AH 2H AD AC')
+    four_of_a_kind1 = PokerHand('JS JD JC JH 3D')
+    four_of_a_kind2 = PokerHand('AS AH 2H AD AC')
 
     assert four_of_a_kind1.compare_with(four_of_a_kind2) == 'Lose'
