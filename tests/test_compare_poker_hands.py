@@ -67,6 +67,19 @@ def test_highest_straight_flush_wins():
     assert hand2.compare_with(hand1) == 'Win'
 
 
+def test_lowest_straight_flush_loses():
+    """
+    GIVEN: Two poker hands that are straight flushes.
+    WHEN:  We compare the hands.
+    THEN:  The highest straight glush wins.
+    """
+    hand1 = PokerHand('KS AS TS QS JS')
+    hand2 = PokerHand('2H 3H 4H 5H 6H')
+
+    assert hand1.compare_with(hand2) == 'Lose'
+
+
+
 def test_equal_straight_is_a_tie():
     """
     GIVEN: Two straights with identical card ranks.
@@ -79,3 +92,26 @@ def test_equal_straight_is_a_tie():
 
     assert straight1.compare_with(straight2) == 'Tie'
 
+
+def test_highest_four_of_a_kind_wins():
+    """
+    GIVEN: Two four-of-a-kind hands.
+    WHEN: We compare the hands.
+    THEN: The highest ranked four-of-a-kind wins.
+    """
+    four_of_a_kind1 = PokerHand('AS AH 2H AD AC')
+    four_of_a_kind2 = PokerHand('JS JD JC JH 3D')
+
+    assert four_of_a_kind1.compare_with(four_of_a_kind2) == 'Win'
+
+
+def test_lowest_four_of_a_kind_loses():
+    """
+    GIVEN: Two four-of-a-kind hands.
+    WHEN: We compare the hands.
+    THEN: The lowest ranked four-of-a-kind loses.
+    """
+    four_of_a_kind2 = PokerHand('JS JD JC JH 3D')
+    four_of_a_kind1 = PokerHand('AS AH 2H AD AC')
+
+    assert four_of_a_kind1.compare_with(four_of_a_kind2) == 'Lose'
