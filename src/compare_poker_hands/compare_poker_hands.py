@@ -149,7 +149,7 @@ def _is_royal_flush(hand):
 
 
 def _is_straight_flush(hand):
-    return NotImplemented
+    return _is_straight(hand) and _is_flush(hand)
 
 
 def _is_four_of_a_kind(hand):
@@ -165,7 +165,12 @@ def _is_full_house(hand):
 
 
 def _is_flush(hand):
-    return NotImplemented
+    suit = hand.hand[0].suit
+    for card in hand.hand:
+        if card.suit != suit:
+            return False
+
+    return True
 
 
 def _is_straight(hand):
@@ -195,10 +200,10 @@ def _is_highcard(hand):
 def hand_value(hand):
     #if _is_royal_flush(hand):
     #    return HandValue.ROYAL_FLUSH
-    #elif _is_straight_flush(hand):
-    #    return HandValue.STRAIGHT_FLUSH
+    if _is_straight_flush(hand):
+        return HandValue.STRAIGHT_FLUSH
     #elif _is_four_of_a_kind(hand):
-    if _is_four_of_a_kind(hand):
+    elif _is_four_of_a_kind(hand):
         return HandValue.FOUR_OF_A_KIND
     #elif _is_full_house(hand):
     #    return HandValue.FULL_HOUSE
