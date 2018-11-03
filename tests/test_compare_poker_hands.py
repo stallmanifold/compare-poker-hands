@@ -80,7 +80,6 @@ def test_lowest_straight_flush_loses():
     assert hand1.compare_with(hand2) == 'Lose'
 
 
-
 def test_equal_straight_is_a_tie():
     """
     GIVEN: Two straights with identical card ranks.

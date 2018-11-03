@@ -202,7 +202,6 @@ def hand_value(hand):
     #    return HandValue.ROYAL_FLUSH
     if _is_straight_flush(hand):
         return HandValue.STRAIGHT_FLUSH
-    #elif _is_four_of_a_kind(hand):
     elif _is_four_of_a_kind(hand):
         return HandValue.FOUR_OF_A_KIND
     #elif _is_full_house(hand):
@@ -222,6 +221,18 @@ def hand_value(hand):
     else:
         # We did not get an actual poker hand.
         raise TypeError('Not a poker hand', str(hand))
+
+
+def _compare_straight_flushes(this_hand, that_hand):
+    for (this_card, that_card) in zip(this_hand.hand, that_hand.hand):
+        if this_card.rank > that_card.rank:
+            return 1
+        elif this_card.rank < that_card.rank:
+            return -1
+        else:
+            continue
+
+    return 0    
 
 
 def _compare_four_of_a_kinds(this_hand, that_hand):
@@ -252,6 +263,7 @@ def _compare_straights(this_hand, that_hand):
 
 def compare(this_hand, that_hand):
     COMPARATORS = {
+        HandValue.STRAIGHT_FLUSH: _compare_straight_flushes,
         HandValue.FOUR_OF_A_KIND: _compare_four_of_a_kinds,
         HandValue.STRAIGHT: _compare_straights,
     }
