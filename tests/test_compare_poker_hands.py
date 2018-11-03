@@ -74,8 +74,8 @@ def test_lowest_straight_flush_loses():
     WHEN:  We compare the hands.
     THEN:  The highest straight glush wins.
     """
-    hand1 = PokerHand('KS AS TS QS JS')
-    hand2 = PokerHand('2H 3H 4H 5H 6H')
+    hand1 = PokerHand('2H 3H 4H 5H 6H')
+    hand2 = PokerHand('KS AS TS QS JS')
 
     assert hand1.compare_with(hand2) == 'Lose'
 
