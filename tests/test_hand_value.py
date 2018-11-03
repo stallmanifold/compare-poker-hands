@@ -17,11 +17,22 @@ def test_hand_value_should_correctly_identify_four_of_a_kind():
 
 def test_hand_value_should_correctly_identify_four_of_a_kind():
     """
-    GIVEN: A four of a kind poker hand.
+    GIVEN: A straight flush poker hand.
     WHEN:  We identify its hand value.
-    THEN:  It should be correctly classified as a four of a kind.
+    THEN:  It should be correctly classified as a straight flush.
     """
     straight_flush = PokerHand('TD 8D 9D JD QD')
 
     assert cph.hand_value(straight_flush) == HandValue.STRAIGHT_FLUSH
+
+
+def test_hand_value_should_correctly_identify_straight():
+    """
+    GIVEN: A straight flush poker hand.
+    WHEN:  We identify its hand value.
+    THEN:  It should be correctly classified as a straight flush.
+    """
+    straight = PokerHand('TD 8S 9C JD QH')
+
+    assert cph.hand_value(straight) == HandValue.STRAIGHT
 
