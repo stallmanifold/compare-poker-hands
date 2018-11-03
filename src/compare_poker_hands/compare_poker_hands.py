@@ -18,21 +18,28 @@ class Rank(enum.IntEnum):
     KING   = 13
     ACE    = 14
 
+
 class Suit(enum.IntEnum):
     SPADES   = 1
     CLUBS    = 2
     DIAMONDS = 3
     HEARTS   = 4
 
-
 Card = namedtuple('Card', ['rank', 'suit'])
 
 
-def PokerHand(string):
-    """
-    Parse a poker hand string into an actual poker hand.
-    """
-    return parse_poker_hand(string)
+def card_to_str(card):
+    RANKS = {
+        Rank.TWO: '2', Rank.THREE: '3', Rank.FOUR:  '4', Rank.FIVE: '5', 
+        Rank.SIX: '6', Rank.SEVEN: '7', Rank.EIGHT: '8', Rank.NINE: '9', 
+        Rank.TEN: 'T', Rank.JACK:  'J', Rank.QUEEN: 'Q', Rank.KING: 'K', 
+        Rank.ACE: 'A'
+    }
+    SUITS = {
+        Suit.SPADES: 'S', Suit.CLUBS: 'C', Suit.DIAMONDS: 'D', Suit.HEARTS: 'H'
+    }
+
+    return f'{RANKS[card.rank]}{SUITS[card.suit]}'
 
 
 def parse_card(card_string):
@@ -89,6 +96,13 @@ def parse_poker_hand(string):
     return Hand(cards)
 
 
+def PokerHand(string):
+    """
+    Parse a poker hand string into an actual poker hand.
+    """
+    return parse_poker_hand(string)
+
+
 class Hand:
 
     RESULT = ['Loss', 'Tie', 'Win']
@@ -131,7 +145,10 @@ class Hand:
         return f'Hand([{self.hand[0]}, {self.hand[1]}, {self.hand[2]}, {self.hand[3]}, {self.hand[4]}])'
 
     def __str__(self):
-        return f'{self.hand[0]} {self.hand[1]} {self.hand[2]} {self.hand[3]} {self.hand[4]}'
+        return f'{card_to_str(self.hand[0])} '\
+               f'{card_to_str(self.hand[1])} '\
+               f'{card_to_str(self.hand[2])} '\
+               f'{card_to_str(self.hand[3])} {card_to_str(self.hand[4])}'
 
 
 def main():
