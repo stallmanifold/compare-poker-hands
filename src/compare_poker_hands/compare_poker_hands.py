@@ -382,8 +382,23 @@ def main():
         # An exit code of 2 is standard unix convention.
         sys.exit(2)
 
-    
+    hand1 = PokerHand(sys.argv[1])
+    hand2 = PokerHand(sys.argv[2])
 
+    print('Comparing Poker hands:')
+
+    result = compare(hand1, hand2)
+    if result == 1:
+        print(f'Hand 1: \"{hand1}\" WINNER')
+        print(f'Hand 2: \"{hand2}\"')        
+    elif result == -1:
+        print(f'Hand 1: \"{hand1}\"')
+        print(f'Hand 2: \"{hand2}\" WINNER')
+    else:
+        print(f'Hand 1: \"{hand1}\" TIE')
+        print(f'Hand 2: \"{hand2}\" TIE')
+
+    sys.exit(0)
 
 if __name__ == 'main':
     main()
