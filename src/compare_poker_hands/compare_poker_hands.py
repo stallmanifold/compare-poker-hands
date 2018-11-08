@@ -290,7 +290,17 @@ def _compare_straights(this_hand, that_hand):
 
 
 def _compare_three_of_a_kinds(this_hand, that_hand):
-    pass
+    this_start, this_len = _longest_run(this_hand)
+    that_start, that_len = _longest_run(that_hand)
+    this_rank = this_hand.hand[this_start]
+    that_rank = that_hand.hand[that_start]
+
+    if this_rank > that_rank:
+        return 1
+    elif this_rank < that_rank:
+        return -1
+    else:
+        return 0
 
 
 def compare(this_hand, that_hand):
