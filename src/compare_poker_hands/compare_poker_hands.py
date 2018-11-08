@@ -266,7 +266,15 @@ def _compare_full_houses(this_hand, that_hand):
 
 
 def _compare_flushes(this_hand, that_hand):
-    pass
+    for this_card, that_card in zip(this_hand.hand, that_hand.hand):
+        if this_card.rank > that_card.rank:
+            return 1
+        elif this_card.rank < that_card.rank:
+            return -1
+        else:
+            continue
+
+    return 0
 
 
 def _compare_straights(this_hand, that_hand):
@@ -285,6 +293,8 @@ def compare(this_hand, that_hand):
     COMPARATORS = {
         HandValue.STRAIGHT_FLUSH: _compare_straight_flushes,
         HandValue.FOUR_OF_A_KIND: _compare_four_of_a_kinds,
+        HandValue.FULL_HOUSE: _compare_full_houses,
+        HandValue.FLUSH: _compare_flushes,
         HandValue.STRAIGHT: _compare_straights,
     }
 

@@ -152,6 +152,7 @@ def test_full_house_beats_flush():
 
     assert full_house.compare_with(flush) == 'Win'
 
+
 def test_highest_flush_wins():
     """
     GIVEN: Two flushes.
@@ -162,4 +163,16 @@ def test_highest_flush_wins():
     flush2 = PokerHand('2H 3H 5H 6H 7H')
     
     assert flush2.compare_with(flush1) == 'Win'
+
+
+def test_flush_beats_straight():
+    """
+    GIVEN: A flush and a straight.
+    WHEN:  We compare the hands.
+    THEN:  The flush wins.
+    """
+    flush = PokerHand('2H 3H 5H 6H 7H')
+    straight = PokerHand('2S 3H 4H 5S 6C')
+    
+    assert flush.compare_with(straight) == "Win"
 
