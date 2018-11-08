@@ -222,8 +222,8 @@ def hand_value(hand):
         return HandValue.FLUSH
     elif _is_straight(hand):
         return HandValue.STRAIGHT
-    #elif _is_three_of_a_kind(hand):
-    #    return HandValue.THREE_OF_A_KIND
+    elif _is_three_of_a_kind(hand):
+        return HandValue.THREE_OF_A_KIND
     #elif _is_two_pairs(hand):
     #    return HandValue.TWO_PAIRS
     #elif _is_pair():
@@ -289,6 +289,10 @@ def _compare_straights(this_hand, that_hand):
     return 0
 
 
+def _compare_three_of_a_kinds(this_hand, that_hand):
+    pass
+
+
 def compare(this_hand, that_hand):
     COMPARATORS = {
         HandValue.STRAIGHT_FLUSH: _compare_straight_flushes,
@@ -296,6 +300,7 @@ def compare(this_hand, that_hand):
         HandValue.FULL_HOUSE: _compare_full_houses,
         HandValue.FLUSH: _compare_flushes,
         HandValue.STRAIGHT: _compare_straights,
+        HandValue.THREE_OF_A_KIND: _compare_three_of_a_kinds,
     }
 
     this_hand_value = hand_value(this_hand)
