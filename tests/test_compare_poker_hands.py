@@ -153,6 +153,18 @@ def test_full_house_beats_flush():
     assert full_house.compare_with(flush) == 'Win'
 
 
+def test_equal_full_houses_tie():
+    """
+    GIVEN: A pair of equal full houses.
+    WHEN:  We compare the hands.
+    THEN:  The comparison is a tie.
+    """
+    full_house1 = PokerHand('JS JC KS KD KH')
+    full_house2 = PokerHand('JD KD JH KC KS')
+
+    assert full_house1.compare_with(full_house2) == 'Tie'
+
+
 def test_highest_flush_wins():
     """
     GIVEN: Two flushes.
