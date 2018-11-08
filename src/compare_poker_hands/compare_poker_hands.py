@@ -1,4 +1,5 @@
 import enum
+import sys
 
 from collections import namedtuple
 
@@ -367,7 +368,10 @@ class Hand:
 
 
 def main():
-    print('OMG IT RUNS FROM SETUP.PY!')
+    if len(sys.argv) < 3:
+        help()
+        # An exit code of 2 is standard unix convention.
+        sys.exit(2)
 
 
 if __name__ == 'main':
