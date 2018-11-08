@@ -212,3 +212,15 @@ def test_straight_beats_three_of_a_kind():
 
     assert straight.compare_with(three_of_a_kind) == 'Win'
 
+
+def test_equal_three_of_a_kinds_tie():
+    """
+    GIVEN: A pair of equal three-of-a-kinds.
+    WHEN:  We compare the hands.
+    THEN:  The comparison is a tie.
+    """
+    full_house1 = PokerHand('JS JC JD 2S 5C')
+    full_house2 = PokerHand('JD 6C JH JS 9H')
+
+    assert full_house1.compare_with(full_house2) == 'Tie'
+
