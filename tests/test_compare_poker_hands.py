@@ -115,3 +115,28 @@ def test_lowest_four_of_a_kind_loses():
     four_of_a_kind2 = PokerHand('AS AH 2H AD AC')
 
     assert four_of_a_kind1.compare_with(four_of_a_kind2) == 'Lose'
+
+
+def test_full_house_loses_to_four_of_a_kind():
+    """
+    GIVEN: A full house and a four-of-a-kind.
+    WHEN:  We compare the hands.
+    THEN:  The full house loses.
+    """
+    full_house = PokerHand('2S AH 2H AS AC')
+    four_of_a_kind = PokerHand('JS JD JC JH AD')
+
+    assert full_house.compare_with(four_of_a_kind) == 'Lose'
+
+
+def test_four_of_a_kind_beats_full_house():
+    """
+    GIVEN: A full house and a four-of-a-kind.
+    WHEN:  We compare the hands.
+    THEN:  The four of a kind wins.
+    """
+    full_house = PokerHand('2S AH 2H AS AC')
+    four_of_a_kind = PokerHand('JS JD JC JH AD')
+
+    assert four_of_a_kind.compare_with(full_house) == 'Win'
+

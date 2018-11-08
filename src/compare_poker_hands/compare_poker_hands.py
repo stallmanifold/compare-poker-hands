@@ -161,7 +161,19 @@ def _is_four_of_a_kind(hand):
 
 
 def _is_full_house(hand):
-    return NotImplemented
+    first_rank = hand.hand[0].rank
+    second_rank = None
+    it = iter(hand.hand)
+    for card in it:
+        if card.rank != first_rank:
+            second_rank = card.rank
+            break
+
+    for card in it:
+        if card.rank != second_rank:
+            return False
+
+    return True
 
 
 def _is_flush(hand):
@@ -204,8 +216,8 @@ def hand_value(hand):
         return HandValue.STRAIGHT_FLUSH
     elif _is_four_of_a_kind(hand):
         return HandValue.FOUR_OF_A_KIND
-    #elif _is_full_house(hand):
-    #    return HandValue.FULL_HOUSE
+    elif _is_full_house(hand):
+        return HandValue.FULL_HOUSE
     #elif _is_flush(hand):
     #    return HandValue.FLUSH
     elif _is_straight(hand):
@@ -232,7 +244,7 @@ def _compare_straight_flushes(this_hand, that_hand):
         else:
             continue
 
-    return 0    
+    return 0
 
 
 def _compare_four_of_a_kinds(this_hand, that_hand):
@@ -247,6 +259,10 @@ def _compare_four_of_a_kinds(this_hand, that_hand):
         return -1
     else:
         return 0
+
+
+def _compare_full_houses(this_hand, that_hand):
+    pass
 
 
 def _compare_straights(this_hand, that_hand):
