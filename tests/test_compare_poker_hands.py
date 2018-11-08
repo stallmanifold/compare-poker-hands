@@ -188,3 +188,15 @@ def test_equal_straights_tie():
 
     assert straight1.compare_with(straight2) == 'Tie'
 
+
+def test_straight_beats_three_of_a_kind():
+    """
+    GIVEN: A straight and a three-of-a-kind.
+    WHEN:  We compare the hands.
+    THEN:  The straight wins.
+    """
+    straight = PokerHand('2S 3H 4H 5S 6C')
+    three_of_a_kind = PokerHand('AH AC 5H 6H AS')
+
+    assert straight.compare_with(three_of_a_kind) == 'Win'
+
