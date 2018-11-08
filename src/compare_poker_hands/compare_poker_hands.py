@@ -195,7 +195,11 @@ def _is_straight(hand):
 
 
 def _is_three_of_a_kind(hand):
-    return NotImplemented
+    start, length = _longest_run(hand)
+    if length == 3:
+        return True
+    else:
+        return False
 
 
 def _is_two_pairs(hand):
