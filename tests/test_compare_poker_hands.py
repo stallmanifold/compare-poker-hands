@@ -176,3 +176,15 @@ def test_flush_beats_straight():
     
     assert flush.compare_with(straight) == "Win"
 
+
+def test_equal_straights_tie():
+    """
+    GIVEN: two straights of equal rank, but not necessarily identical suits.
+    WHEN:  We compare the hands.
+    THEN:  The comparison ties.
+    """
+    straight1 = PokerHand('2S 3H 4H 5S 6C')
+    straight2 = PokerHand('3D 4C 5H 6H 2S')
+
+    assert straight1.compare_with(straight2) == 'Tie'
+
