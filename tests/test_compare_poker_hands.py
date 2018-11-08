@@ -140,3 +140,15 @@ def test_four_of_a_kind_beats_full_house():
 
     assert four_of_a_kind.compare_with(full_house) == 'Win'
 
+
+def test_full_house_beats_flush():
+    """
+    GIVEN: A full house and a flush.
+    WHEN:  We compare the hands.
+    THEN:  The full house wins.
+    """
+    full_house = PokerHand('2S AH 2H AS AC') 
+    flush = PokerHand('2H 3H 5H 6H 7H')
+
+    assert full_house.compare_with(flush) == 'Win'
+

@@ -218,8 +218,8 @@ def hand_value(hand):
         return HandValue.FOUR_OF_A_KIND
     elif _is_full_house(hand):
         return HandValue.FULL_HOUSE
-    #elif _is_flush(hand):
-    #    return HandValue.FLUSH
+    elif _is_flush(hand):
+        return HandValue.FLUSH
     elif _is_straight(hand):
         return HandValue.STRAIGHT
     #elif _is_three_of_a_kind(hand):
@@ -262,6 +262,10 @@ def _compare_four_of_a_kinds(this_hand, that_hand):
 
 
 def _compare_full_houses(this_hand, that_hand):
+    pass
+
+
+def _compare_flushes(this_hand, that_hand):
     pass
 
 
