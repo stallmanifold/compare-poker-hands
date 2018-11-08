@@ -371,11 +371,18 @@ class Hand:
                f'{card_to_str(self.hand[3])} {card_to_str(self.hand[4])}'
 
 
+def usage():
+    return \
+        'USAGE: compare-poker-hands \"RS RS RS RS RS\" \"RS RS RS RS RS\"\n' \
+        'where R denotes rank, and S denotes suit.'
+
 def main():
     if len(sys.argv) < 3:
-        help()
+        print(usage())
         # An exit code of 2 is standard unix convention.
         sys.exit(2)
+
+    
 
 
 if __name__ == 'main':
