@@ -23,10 +23,10 @@ class PyTest(TestCommand):
 
 config = dict(
     description = 'Compare pairs of poker hands to determine which one wins based on Texas Hold\'em rules.',
-    author = 'Stallmanifold',
-    url = 'https://github.com/stallmanifold/compare-poker-hands',
-    download_url = 'https://github.com/stallmanifold/compare-poker-hands.git',
-    author_email = 'stallmanifold@gmail.com',
+    author = 'LambdaXymox',
+    url = 'https://github.com/lambdaxymox/compare-poker-hands',
+    download_url = 'https://github.com/lambdaxymox/compare-poker-hands.git',
+    author_email = 'lambda.xymox@gmail.com',
     version = '0.1',
     install_requires = ['pytest', 'hypothesis'],
     license = "LICENSE-APACHE",
